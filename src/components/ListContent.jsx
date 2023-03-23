@@ -28,10 +28,10 @@ const ListContent = ({ contentId, displayContent, updatingDisplay }) => {
           setPreviewData(items.dataArray.find(isPresent) || '')
 
           if (quill) {
-            quill.clipboard.dangerouslyPasteHTML(items.dataArray.find(isPresent).text.text);
+            quill.clipboard.dangerouslyPasteHTML(items.dataArray.find(isPresent).texts.textWithHtml);
           }          
 
-          console.log(items.dataArray.find(isPresent).text);
+          console.log(items.dataArray.find(isPresent));
       });
 
   }, [contentId, quill])

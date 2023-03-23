@@ -18,6 +18,8 @@ const Preview = () => {
         
             chrome.storage.local.get("dataArray", function(items) { 
 
+                console.log("items",items);
+
                 if (items.dataArray.length > 0) {
                     setActiveTab(items.dataArray[0].id)
                     
@@ -77,7 +79,7 @@ const Preview = () => {
                     <div className='overflow-y-scroll w-full h-full m-0 flex list-none flex-col'>
                         {
                             tabItems.map((tabItem, i) => (
-                                <PreviewTab key={i} title={tabItem.hostname} text={ tabItem.text.text } classs={getActiveClass(tabItem.id, classs)} action={() => toggleTab(tabItem.id)} />
+                                <PreviewTab key={i} title={tabItem.hostname} text={ tabItem.texts.text } classs={getActiveClass(tabItem.id, classs)} action={() => toggleTab(tabItem.id)} />
                             ))
                         }
 

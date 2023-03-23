@@ -7,6 +7,7 @@ let idInt = 1
 
 chrome.runtime.onInstalled.addListener(() => {
 
+    saveArrayToStorage();
     // create context menu item
     chrome.contextMenus.create({
         id: "copy-to-board",
@@ -15,7 +16,6 @@ chrome.runtime.onInstalled.addListener(() => {
     });
     
     
-    saveArrayToStorage();
     
 })
 // handle context menu click
@@ -23,23 +23,22 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
     if (info.menuItemId == "copy-to-board") {
         // get text, url, and hostname of current tab
 
-        console.log(info);
         
         // send id
         chrome.tabs.sendMessage(tab.id, {action: "copyText"}, (response) => {
-            var text = {
-                text: response,
-                original_text: response,
+            var texts = {
+                text: response.text,
+                textWithHtml: response.textWithFormat
             };
             var url = tab.url;
             var hostname = new URL(url).hostname;
 
-            console.log("text", response);
+            console.log("text", response.text);
 
 
 
             // add data to array
-            addDataToArray(text, url, hostname);
+            addDataToArray(texts, url, hostname);
             
             // save array to storage
             saveArrayToStorage();
@@ -56,10 +55,10 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
 
 
-function addDataToArray(text, url, hostname) {
+function addDataToArray(texts, url, hostname) {
     var timestamp = new Date().getTime();
     var data = {
-        text: text,
+        texts: texts,
         id: idInt,
         url: url,
         hostname: hostname,
